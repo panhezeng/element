@@ -1,5 +1,6 @@
 <script>
   import bus from '../../bus';
+  import { ACTION_USER_CONFIG_UPDATE } from '../../components/theme/constant.js';
   const varMap = {
     '$--box-shadow-light': 'boxShadowLight',
     '$--box-shadow-base': 'boxShadowBase',
@@ -11,10 +12,10 @@
     boxShadowBase: '0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)',
     borderRadiusBase: '4px',
     borderRadiusSmall: '2px'
-  }
+  };
   export default {
     created() {
-      bus.$on('user-theme-config-update', this.setGlobal);
+      bus.$on(ACTION_USER_CONFIG_UPDATE, this.setGlobal);
     },
     mounted() {
       this.setGlobal();
@@ -33,7 +34,7 @@
         boxShadowBase: '',
         borderRadiusBase: '',
         borderRadiusSmall: ''
-      }
+      };
     },
     watch: {
       global: {
@@ -41,9 +42,9 @@
         handler(value) {
           Object.keys(varMap).forEach((c) => {
             if (value[c]) {
-              this[varMap[c]] = value[c]
+              this[varMap[c]] = value[c];
             } else {
-              this[varMap[c]] = original[varMap[c]]
+              this[varMap[c]] = original[varMap[c]];
             }
           });
         }

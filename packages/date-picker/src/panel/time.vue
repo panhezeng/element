@@ -31,7 +31,7 @@
 </template>
 
 <script type="text/babel">
-  import { limitTimeRange, isDate, clearMilliseconds, timeWithinRange } from '../util';
+  import { limitTimeRange, isDate, clearMilliseconds, timeWithinRange } from 'element-ui/src/utils/date-util';
   import Locale from 'element-ui/src/mixins/locale';
   import TimeSpinner from '../basic/time-spinner';
 
@@ -157,7 +157,7 @@
           const step = mapping[keyCode];
           this.$refs.spinner.scrollDown(step);
           event.preventDefault();
-          return;
+
         }
       },
 

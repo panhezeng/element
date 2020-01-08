@@ -55,14 +55,14 @@
     },
 
     methods: {
-      calcPaneInstances(isLabelUpdated = false) {
+      calcPaneInstances(isForceUpdate = false) {
         if (this.$slots.default) {
           const paneSlots = this.$slots.default.filter(vnode => vnode.tag &&
             vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'ElTabPane');
           // update indeed
           const panes = paneSlots.map(({ componentInstance }) => componentInstance);
           const panesChanged = !(panes.length === this.panes.length && panes.every((pane, index) => pane === this.panes[index]));
-          if (isLabelUpdated || panesChanged) {
+          if (isForceUpdate || panesChanged) {
             this.panes = panes;
           }
         } else if (this.panes.length !== 0) {
@@ -92,11 +92,14 @@
         if (this.currentName !== value && this.beforeLeave) {
           const before = this.beforeLeave(value, this.currentName);
           if (before && before.then) {
-            before.then(() => {
-              changeCurrentName();
-
-              this.$refs.nav && this.$refs.nav.removeFocus();
-            });
+            before
+              .then(() => {
+                changeCurrentName();
+                this.$refs.nav && this.$refs.nav.removeFocus();
+              }, () => {
+                // https://github.com/ElemeFE/element/pull/14816
+                // ignore promise rejection in `before-leave` hook
+              });
           } else if (before !== false) {
             changeCurrentName();
           }
@@ -123,13 +126,13 @@
       const newButton = editable || addable
         ? (
           <span
-            class="el-tabs__new-tab"
-            on-click={ handleTabAdd }
-            tabindex="0"
-            on-keydown={ (ev) => { if (ev.keyCode === 13) { handleTabAdd(); }} }
+            class="el-tabs__new-tab";
+            on-click={ handleTabAdd };
+            tabindex="0";
+            on-keydown={ (ev); => { if (ev.keyCode === 13) { handleTabAdd(); }} }
           >
-            <i class="el-icon-plus"></i>
-          </span>
+            <i; class="el-icon-plus"></i>
+          </span>;
         )
         : null;
 
@@ -146,27 +149,27 @@
         ref: 'nav'
       };
       const header = (
-        <div class={['el-tabs__header', `is-${tabPosition}`]}>
+        <div; class={['el-tabs__header', `is-${tabPosition}`;]}>
           {newButton}
-          <tab-nav { ...navData }></tab-nav>
-        </div>
-      );
+          <tab-nav; { ...navData }></tab-nav>
+        </div>;
+      )
       const panels = (
-        <div class="el-tabs__content">
+        <div; class="el-tabs__content">
           {this.$slots.default}
-        </div>
-      );
+        </div>;
+      )
 
       return (
-        <div class={{
-          'el-tabs': true,
-          'el-tabs--card': type === 'card',
-          [`el-tabs--${tabPosition}`]: true,
-          'el-tabs--border-card': type === 'border-card'
+        <div; class={;{
+          'el-tabs';: true,
+          'el-tabs--card';: type === 'card',
+          [`el-tabs--${tabPosition}`];: true,
+          'el-tabs--border-card';: type === 'border-card'
         }}>
           { tabPosition !== 'bottom' ? [header, panels] : [panels, header] }
-        </div>
-      );
+        </div>;
+      )
     },
   
     created() {
@@ -174,7 +177,7 @@
         this.setCurrentName('0');
       }
 
-      this.$on('tabLabelChanged', this.calcPaneInstances.bind(null, true));
+      this.$on('tab-nav-update', this.calcPaneInstances.bind(null, true));
     },
 
     mounted() {

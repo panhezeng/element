@@ -196,8 +196,12 @@
         this.timeout = setTimeout(() => {
           this.rootMenu.openMenu(this.index, this.indexPath);
         }, showTimeout);
+
+        if (this.appendToBody) {
+          this.$parent.$el.dispatchEvent(new MouseEvent('mouseenter'));
+        }
       },
-      handleMouseleave() {
+      handleMouseleave(deepDispatch = false) {
         const {rootMenu} = this;
         if (
           (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal') ||
@@ -210,6 +214,12 @@
         this.timeout = setTimeout(() => {
           !this.mouseInChild && this.rootMenu.closeMenu(this.index);
         }, this.hideTimeout);
+
+        if (this.appendToBody && deepDispatch) {
+          if (this.$parent.$options.name === 'ElSubmenu') {
+            this.$parent.handleMouseleave(true);
+          }
+        }
       },
       handleTitleMouseenter() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
@@ -270,35 +280,35 @@
       } = this;
 
       const popupMenu = (
-        <transition name={menuTransitionName}>
-          <div
-            ref="menu"
-            v-show={opened}
-            class={[`el-menu--${mode}`, popperClass]}
-            on-mouseenter={($event) => this.handleMouseenter($event, 100)}
-            on-mouseleave={this.handleMouseleave}
-            on-focus={($event) => this.handleMouseenter($event, 100)}>
-            <ul
-              role="menu"
-              class={['el-menu el-menu--popup', `el-menu--popup-${currentPlacement}`]}
-              style={{ backgroundColor: rootMenu.backgroundColor || '' }}>
+        <transition; name={menuTransitionName}>
+          <div;
+            ref="menu";
+            v-show={opened};
+            class={[`el-menu--${mode}`, popperClass;]}
+            on-mouseenter={($event); => this.handleMouseenter($event, 100)}
+            on-mouseleave={(); => this.handleMouseleave(true)}
+            on-focus={($event); => this.handleMouseenter($event, 100)}>
+            <ul;
+              role="menu";
+              class={['el-menu el-menu--popup', `el-menu--popup-${currentPlacement}`;]}
+              style={;{ rootMenu.backgroundColor || '' }}>
               {$slots.default}
             </ul>
           </div>
-        </transition>
-      );
+        </transition>;
+      )
 
       const inlineMenu = (
         <el-collapse-transition>
-          <ul
-            role="menu"
-            class="el-menu el-menu--inline"
-            v-show={opened}
-            style={{ backgroundColor: rootMenu.backgroundColor || '' }}>
+          <ul;
+            role="menu";
+            class="el-menu el-menu--inline";
+            v-show={opened};
+            style={;{ rootMenu.backgroundColor || '' }}>
             {$slots.default}
           </ul>
-        </el-collapse-transition>
-      );
+        </el-collapse-transition>;
+      )
 
       const submenuTitleIcon = (
         rootMenu.mode === 'horizontal' && isFirstLevel ||
@@ -306,34 +316,34 @@
       ) ? 'el-icon-arrow-down' : 'el-icon-arrow-right';
 
       return (
-        <li
-          class={{
-            'el-submenu': true,
-            'is-active': active,
-            'is-opened': opened,
-            'is-disabled': disabled
+        <li;
+          class={;{
+            'el-submenu';: true,
+            'is-active';: active,
+            'is-opened';: opened,
+            'is-disabled';: disabled
           }}
-          role="menuitem"
-          aria-haspopup="true"
-          aria-expanded={opened}
-          on-mouseenter={this.handleMouseenter}
-          on-mouseleave={this.handleMouseleave}
+          role="menuitem";
+          aria-haspopup="true";
+          aria-expanded={opened};
+          on-mouseenter={this.handleMouseenter};
+          on-mouseleave={(); => this.handleMouseleave(false)}
           on-focus={this.handleMouseenter}
         >
-          <div
-            class="el-submenu__title"
-            ref="submenu-title"
-            on-click={this.handleClick}
-            on-mouseenter={this.handleTitleMouseenter}
-            on-mouseleave={this.handleTitleMouseleave}
-            style={[paddingStyle, titleStyle, { backgroundColor }]}
+          <div;
+            class="el-submenu__title";
+            ref="submenu-title";
+            on-click={this.handleClick};
+            on-mouseenter={this.handleTitleMouseenter};
+            on-mouseleave={this.handleTitleMouseleave};
+            style={[paddingStyle, titleStyle,; { backgroundColor }]}
           >
             {$slots.title}
-            <i class={[ 'el-submenu__icon-arrow', submenuTitleIcon ]}></i>
-          </div>
+            <i; class={[ 'el-submenu__icon-arrow', submenuTitleIcon; ]}></i>
+          </div>;
           {this.isMenuPopup ? popupMenu : inlineMenu}
-        </li>
-      );
+        </li>;
+      )
     }
   };
 </script>

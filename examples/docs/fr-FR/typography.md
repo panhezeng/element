@@ -1,5 +1,6 @@
 <script>
   import bus from '../../bus';
+  import { ACTION_USER_CONFIG_UPDATE } from '../../components/theme/constant.js';
   const varMap = [
     '$--font-size-extra-large',
     '$--font-size-large',
@@ -15,10 +16,10 @@
     'font_size_base': '14px',
     'font_size_small': '13px',
     'font_size_extra_small': '12px'
-  }
+  };
   export default {
     created() {
-      bus.$on('user-theme-config-update', this.setGlobal);
+      bus.$on(ACTION_USER_CONFIG_UPDATE, this.setGlobal);
     },
     mounted() {
       this.setGlobal();
@@ -42,18 +43,18 @@
         'font_size_base': '',
         'font_size_small': '',
         'font_size_extra_small': ''
-      }
+      };
     },
     watch: {
       global: {
         immediate: true,
         handler(value) {
           varMap.forEach((v) => {
-            const key = v.replace('$--', '').replace(/-/g, '_')
+            const key = v.replace('$--', '').replace(/-/g, '_');
             if (value[v]) {
-              this[key] = value[v]
+              this[key] = value[v];
             } else {
-              this[key] = original[key]
+              this[key] = original[key];
             }
           });
         }

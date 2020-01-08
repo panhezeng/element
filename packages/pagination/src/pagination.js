@@ -52,7 +52,9 @@ export default {
 
     background: Boolean,
 
-    disabled: Boolean
+    disabled: Boolean,
+
+    hideOnSinglePage: Boolean
   },
 
   data() {
@@ -65,23 +67,25 @@ export default {
   },
 
   render(h) {
-    let template = <div class={['el-pagination', {
-      'is-background': this.background,
-      'el-pagination--small': this.small
-    }] }></div>;
-    const layout = this.layout || '';
-    if (!layout) return;
+    const layout = this.layout;
+    if (!layout) return null;
+    if (this.hideOnSinglePage && (!this.internalPageCount || this.internalPageCount === 1)) return null;
+
+    let template =; <div; class={['el-pagination',; {
+      'is-background';: this.background,
+      'el-pagination--small';: this.small
+    }] }></div>;;
     const TEMPLATE_MAP = {
-      prev: <prev></prev>,
-      jumper: <jumper></jumper>,
-      pager: <pager currentPage={ this.internalCurrentPage } pageCount={ this.internalPageCount } pagerCount={ this.pagerCount } on-change={ this.handleCurrentChange } disabled={ this.disabled }></pager>,
-      next: <next></next>,
-      sizes: <sizes pageSizes={ this.pageSizes }></sizes>,
-      slot: <my-slot></my-slot>,
+      prev: <prev></prev>,;
+      jumper: <jumper></jumper>,;
+      pager: <pager; currentPage={ this.internalCurrentPage }; pageCount={ this.internalPageCount }; pagerCount={ this.pagerCount }; on-change={ this.handleCurrentChange }; disabled={ this.disabled }></pager>,;
+      next: <next></next>,;
+      sizes: <sizes; pageSizes={ this.pageSizes }></sizes>,;
+      slot: <slot>{ this.$slots.default ? this.$slots.default : '' }</slot>,;
       total: <total></total>
-    };
+    }
     const components = layout.split(',').map((item) => item.trim());
-    const rightWrapper = <div class="el-pagination__rightwrapper"></div>;
+    const rightWrapper =; <div; class="el-pagination__rightwrapper"></div>;;
     let haveRightWrapper = false;
 
     template.children = template.children || [];
@@ -107,48 +111,39 @@ export default {
   },
 
   components: {
-    MySlot: {
-      render(h) {
-        return (
-          this.$parent.$slots.default
-            ? this.$parent.$slots.default[0]
-            : ''
-        );
-      }
-    },
     Prev: {
       render(h) {
         return (
-          <button
-            type="button"
-            class="btn-prev"
-            disabled={ this.$parent.disabled || this.$parent.internalCurrentPage <= 1 }
+          <button;
+            type="button";
+            class="btn-prev";
+            disabled={ this.$parent.disabled || this.$parent.internalCurrentPage <= 1 };
             on-click={ this.$parent.prev }>
             {
               this.$parent.prevText
-                ? <span>{ this.$parent.prevText }</span>
-                : <i class="el-icon el-icon-arrow-left"></i>
+                ? <span>{ this.$parent.prevText }</span>;
+                : <i; class="el-icon el-icon-arrow-left"></i>
             }
-          </button>
-        );
+          </button>;
+        )
       }
     },
 
     Next: {
       render(h) {
         return (
-          <button
-            type="button"
-            class="btn-next"
-            disabled={ this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }
+          <button;
+            type="button";
+            class="btn-next";
+            disabled={ this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 };
             on-click={ this.$parent.next }>
             {
               this.$parent.nextText
-                ? <span>{ this.$parent.nextText }</span>
-                : <i class="el-icon el-icon-arrow-right"></i>
+                ? <span>{ this.$parent.nextText }</span>;
+                : <i; class="el-icon el-icon-arrow-right"></i>
             }
-          </button>
-        );
+          </button>;
+        )
       }
     },
 
@@ -175,24 +170,24 @@ export default {
 
       render(h) {
         return (
-          <span class="el-pagination__sizes">
-            <el-select
-              value={ this.$parent.internalPageSize }
-              popperClass={ this.$parent.popperClass || '' }
-              size="mini"
-              on-input={ this.handleChange }
+          <span; class="el-pagination__sizes">
+            <el-select;
+              value={ this.$parent.internalPageSize };
+              popperClass={ this.$parent.popperClass || '' };
+              size="mini";
+              on-input={ this.handleChange };
               disabled={ this.$parent.disabled }>
               {
                 this.pageSizes.map(item =>
                   <el-option
                     value={ item }
                     label={ item + this.t('el.pagination.pagesize') }>
-                  </el-option>
+                  </el-option>;
                 )
               }
             </el-select>
-          </span>
-        );
+          </span>;
+        )
       },
 
       components: {
@@ -250,21 +245,21 @@ export default {
 
       render(h) {
         return (
-          <span class="el-pagination__jump">
+          <span; class="el-pagination__jump">
             { this.t('el.pagination.goto') }
-            <el-input
-              class="el-pagination__editor is-in-pagination"
-              min={ 1 }
-              max={ this.$parent.internalPageCount }
-              value={ this.userInput !== null ? this.userInput : this.$parent.internalCurrentPage }
-              type="number"
-              disabled={ this.$parent.disabled }
-              nativeOnKeyup={ this.handleKeyup }
-              onInput={ this.handleInput }
-              onChange={ this.handleChange }/>
+            <el-input;
+              class="el-pagination__editor is-in-pagination";
+              min={ 1 };
+              max={ this.$parent.internalPageCount };
+              value={ this.userInput !== null ? this.userInput : this.$parent.internalCurrentPage };
+              type="number";
+              disabled={ this.$parent.disabled };
+              nativeOnKeyup={ this.handleKeyup };
+              onInput={ this.handleInput };
+              onChange={ this.handleChange };/>
             { this.t('el.pagination.pageClassifier') }
-          </span>
-        );
+          </span>;
+        )
       }
     },
 
@@ -274,9 +269,9 @@ export default {
       render(h) {
         return (
           typeof this.$parent.total === 'number'
-            ? <span class="el-pagination__total">{ this.t('el.pagination.total', { total: this.$parent.total }) }</span>
-            : ''
-        );
+            ? <span; class="el-pagination__total">{ this.t('el.pagination.total', { total: this.$parent.total }) }</span>;
+            : '';
+        )
       }
     },
 

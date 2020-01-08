@@ -1,5 +1,6 @@
 <script>
   import bus from '../../bus';
+  import { ACTION_USER_CONFIG_UPDATE } from '../../components/theme/constant.js';
   const varMap = {
     '$--box-shadow-light': 'boxShadowLight',
     '$--box-shadow-base': 'boxShadowBase',
@@ -11,10 +12,10 @@
     boxShadowBase: '0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)',
     borderRadiusBase: '4px',
     borderRadiusSmall: '2px'
-  }
+  };
   export default {
     created() {
-      bus.$on('user-theme-config-update', this.setGlobal);
+      bus.$on(ACTION_USER_CONFIG_UPDATE, this.setGlobal);
     },
     mounted() {
       this.setGlobal();
@@ -33,7 +34,7 @@
         boxShadowBase: '',
         borderRadiusBase: '',
         borderRadiusSmall: ''
-      }
+      };
     },
     watch: {
       global: {
@@ -41,9 +42,9 @@
         handler(value) {
           Object.keys(varMap).forEach((c) => {
             if (value[c]) {
-              this[varMap[c]] = value[c]
+              this[varMap[c]] = value[c];
             } else {
-              this[varMap[c]] = original[varMap[c]]
+              this[varMap[c]] = original[varMap[c]];
             }
           });
         }
@@ -58,7 +59,7 @@
 
 ### 边框
 
-我们提供了一下几种边框样式，以供选择。
+我们提供了以下几种边框样式，以供选择。
 
 <table class="demo-border">
   <tbody>
@@ -86,7 +87,7 @@
 
 ### 圆角
 
-我们提供了一下几种圆角样式，以供选择。
+我们提供了以下几种圆角样式，以供选择。
 
 <el-row :gutter="12" class="demo-radius">
   <el-col :span="6" :xs="{span: 12}">
@@ -119,7 +120,7 @@
 
 ### 投影
 
-我们提供了一下几种投影样式，以供选择。
+我们提供了以下几种投影样式，以供选择。
 
 <div 
 class="demo-shadow"

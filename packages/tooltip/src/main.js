@@ -48,6 +48,10 @@ export default {
     hideAfter: {
       type: Number,
       default: 0
+    },
+    tabindex: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -74,19 +78,19 @@ export default {
   render(h) {
     if (this.popperVM) {
       this.popperVM.node = (
-        <transition
-          name={ this.transition }
+        <transition;
+          name={ this.transition };
           onAfterLeave={ this.doDestroy }>
-          <div
-            onMouseleave={ () => { this.setExpectedState(false); this.debounceClose(); } }
-            onMouseenter= { () => { this.setExpectedState(true); } }
-            ref="popper"
-            role="tooltip"
-            id={this.tooltipId}
+          <div;
+            onMouseleave={ (); => { this.setExpectedState(false); this.debounceClose(); } }
+            onMouseenter= { (); => { this.setExpectedState(true); } }
+            ref="popper";
+            role="tooltip";
+            id={this.tooltipId};
             aria-hidden={ (this.disabled || !this.showPopper) ? 'true' : 'false' }
-            v-show={!this.disabled && this.showPopper}
+            v-show={;!this.disabled && this.showPopper}
             class={
-              ['el-tooltip__popper', 'is-' + this.effect, this.popperClass]
+              ['el-tooltip__popper', 'is-' + this.effect, this.popperClass;]
             }>
             { this.$slots.content || this.content }
           </div>
@@ -106,7 +110,7 @@ export default {
     this.referenceElm = this.$el;
     if (this.$el.nodeType === 1) {
       this.$el.setAttribute('aria-describedby', this.tooltipId);
-      this.$el.setAttribute('tabindex', 0);
+      this.$el.setAttribute('tabindex', this.tabindex);
       on(this.referenceElm, 'mouseenter', this.show);
       on(this.referenceElm, 'mouseleave', this.hide);
       on(this.referenceElm, 'focus', () => {
@@ -214,7 +218,7 @@ export default {
       for (let index = 0; index < slots.length; index++) {
         if (slots[index] && slots[index].tag) {
           element = slots[index];
-        };
+        }
       }
       return element;
     }
@@ -226,10 +230,12 @@ export default {
 
   destroyed() {
     const reference = this.referenceElm;
-    off(reference, 'mouseenter', this.show);
-    off(reference, 'mouseleave', this.hide);
-    off(reference, 'focus', this.handleFocus);
-    off(reference, 'blur', this.handleBlur);
-    off(reference, 'click', this.removeFocusing);
+    if (reference.nodeType === 1) {
+      off(reference, 'mouseenter', this.show);
+      off(reference, 'mouseleave', this.hide);
+      off(reference, 'focus', this.handleFocus);
+      off(reference, 'blur', this.handleBlur);
+      off(reference, 'click', this.removeFocusing);
+    }
   }
 };

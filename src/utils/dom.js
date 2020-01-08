@@ -72,7 +72,7 @@ export function hasClass(el, cls) {
   } else {
     return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
   }
-};
+}
 
 /* istanbul ignore next */
 export function addClass(el, cls) {
@@ -93,7 +93,7 @@ export function addClass(el, cls) {
   if (!el.classList) {
     el.className = curClass;
   }
-};
+}
 
 /* istanbul ignore next */
 export function removeClass(el, cls) {
@@ -114,7 +114,7 @@ export function removeClass(el, cls) {
   if (!el.classList) {
     el.className = trim(curClass);
   }
-};
+}
 
 /* istanbul ignore next */
 export const getStyle = ieVersion < 9 ? function(element, styleName) {
@@ -171,4 +171,57 @@ export function setStyle(element, styleName, value) {
       element.style[styleName] = value;
     }
   }
+}
+
+export const isScroll = (el, vertical) => {
+  if (isServer) return;
+
+  const determinedDirection = vertical !== null || vertical !== undefined;
+  const overflow = determinedDirection
+    ? vertical
+      ? getStyle(el, 'overflow-y')
+      : getStyle(el, 'overflow-x')
+    : getStyle(el, 'overflow');
+
+  return overflow.match(/(scroll|auto)/);
+};
+
+export const getScrollContainer = (el, vertical) => {
+  if (isServer) return;
+
+  let parent = el;
+  while (parent) {
+    if ([window, document, document.documentElement].includes(parent)) {
+      return window;
+    }
+    if (isScroll(parent, vertical)) {
+      return parent;
+    }
+    parent = parent.parentNode;
+  }
+
+  return parent;
+};
+
+export const isInContainer = (el, container) => {
+  if (isServer || !el || !container) return false;
+
+  const elRect = el.getBoundingClientRect();
+  let containerRect;
+
+  if ([window, document, document.documentElement, null, undefined].includes(container)) {
+    containerRect = {
+      top: 0,
+      right: window.innerWidth,
+      bottom: window.innerHeight,
+      left: 0
+    };
+  } else {
+    containerRect = container.getBoundingClientRect();
+  }
+
+  return elRect.top < containerRect.bottom &&
+    elRect.bottom > containerRect.top &&
+    elRect.right > containerRect.left &&
+    elRect.left < containerRect.right;
 };

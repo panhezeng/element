@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { PluginObject } from 'vue'
 import { ElementUIComponent, ElementUIComponentSize, ElementUIHorizontalAlignment } from './component'
 
 import { ElAlert } from './alert'
@@ -67,8 +67,19 @@ import { ElTimePicker } from './time-picker'
 import { ElTimeSelect } from './time-select'
 import { ElTooltip } from './tooltip'
 import { ElTransfer } from './transfer'
-import { ElTree } from './tree'
+import { ElTree, TreeData } from './tree'
 import { ElUpload } from './upload'
+import { ElLink } from './link'
+import { ElDivider } from './divider'
+import { ElIcon } from './icon'
+import { ElCalendar } from './calendar'
+import { ElImage } from './image'
+import { ElBacktop } from './backtop'
+import { ElInfiniteScroll } from './infinite-scroll'
+import { ElPageHeader } from './page-header'
+import { ElAvatar } from './avatar'
+import { ElDrawer } from './drawer'
+import { ElPopconfirm } from './popconfirm'
 
 export interface InstallationOptions {
   locale: any,
@@ -77,7 +88,7 @@ export interface InstallationOptions {
 }
 
 /** The version of element-ui */
-export const version: string
+export const version: string;
 
 /**
  * Install all element-ui components into Vue.
@@ -96,16 +107,16 @@ export type ComponentSize = ElementUIComponentSize
 export type HorizontalAlignment = ElementUIHorizontalAlignment
 
 /** Show animation while loading data */
-export const Loading: ElLoading
+export const Loading: ElLoading;
 
 /** Used to show feedback after an activity. The difference with Notification is that the latter is often used to show a system level passive notification. */
-export const Message: ElMessage
+export const Message: ElMessage;
 
 /** A set of modal boxes simulating system message box, mainly for message prompt, success tips, error messages and query information */
-export const MessageBox: ElMessageBox
+export const MessageBox: ElMessageBox;
 
 /** Displays a global notification message at the upper right corner of the page */
-export const Notification: ElNotification
+export const Notification: ElNotification;
 
 // TS cannot merge imported class with namespace, so declare subclasses instead
 
@@ -296,7 +307,40 @@ export class Tooltip extends ElTooltip {}
 export class Transfer extends ElTransfer {}
 
 /** Tree Component */
-export class Tree extends ElTree {}
+export class Tree<K = any, D = TreeData> extends ElTree<K, D> {}
 
 /** Upload Component */
 export class Upload extends ElUpload {}
+
+/** Divider Component */
+export class Divider extends ElDivider {}
+
+/** Link Component */
+export class Link extends ElLink {}
+
+/** Image Component */
+export class Image extends ElImage {}
+
+/** Icon Component */
+export class Icon extends ElIcon {}
+
+/** Calendar Component */
+export class Calendar extends ElCalendar {}
+
+/** Backtop Component */
+export class Backtop extends ElBacktop {}
+
+/** InfiniteScroll Directive */
+export const InfiniteScroll: PluginObject<ElInfiniteScroll>;
+
+/** PageHeader Component */
+export class PageHeader extends ElPageHeader {}
+
+/** Avatar Component */
+export class Avatar extends ElAvatar {}
+
+/** Drawer Component */
+export class Drawer extends ElDrawer {}
+
+/** Popconfirm Component */
+export class Popconfirm extends ElPopconfirm {}

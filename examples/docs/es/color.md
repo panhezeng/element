@@ -1,6 +1,7 @@
 <script>
   import bus from '../../bus';
   import { tintColor } from '../../color.js';
+  import { ACTION_USER_CONFIG_UPDATE } from '../../components/theme/constant.js';
   const varMap = {
     'primary': '$--color-primary',
     'success': '$--color-success',
@@ -34,10 +35,10 @@
     borderLight: '#E4E7ED',
     borderLighter: '#EBEEF5',
     borderExtraLight: '#F2F6FC'
-  }
+  };
   export default {
     created() {
-      bus.$on('user-theme-config-update', this.setGlobal);
+      bus.$on(ACTION_USER_CONFIG_UPDATE, this.setGlobal);
     },
     mounted() {
       this.setGlobal();
@@ -70,7 +71,7 @@
         borderLight: '',
         borderLighter: '',
         borderExtraLight: ''
-      }
+      };
     },
     watch: {
       global: {
@@ -78,9 +79,9 @@
         handler(value) {
           Object.keys(original).forEach((o) => {
             if (value[varMap[o]]) {
-              this[o] = value[varMap[o]]
+              this[o] = value[varMap[o]];
             } else {
-              this[o] = original[o]
+              this[o] = original[o];
             }
           });
         }
@@ -196,7 +197,7 @@ Además del color principal, se necesitan utilizar distintos colores para difere
 
 ### Color neutro
 
-Los colores neutrales son para texto, fondos y bordes. Puede usar diferentes colores neutrales para representar una estructura jeráquica.
+Los colores neutrales son para texto, fondos y bordes. Puede usar diferentes colores neutrales para representar una estructura jerárquica.
 
 <el-row :gutter="12">
   <el-col :span="6" :xs="{span: 12}">
